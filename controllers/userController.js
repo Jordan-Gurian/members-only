@@ -1,3 +1,4 @@
+require('dotenv').config()
 const User = require('../models/user');
 
 const asyncHandler = require("express-async-handler");
@@ -75,4 +76,20 @@ exports.user_read_get = (req, res, next) => {
 
 exports.user_read_post = (req, res, next) => {
     return passport.authenticate('local', { failureRedirect: '/log-in', successRedirect: '/' });
+};
+
+exports.user_update_get = (req, res, next) => {
+    // Get log in form
+    res.render("join", {
+      title: "Join the club!",
+    });
+};
+
+exports.user_update_post = async(req, res, next) => {
+    if (req.body.secret === process.env.SECRET) {
+        await User.findOneAndUpdate({ _id: req.user._id }, { member_status: true });
+        res.redirect('/');
+    } else {
+        return res.send('WRONG!');
+    }
 };

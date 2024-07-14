@@ -4,8 +4,35 @@
     <title>Home</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
+  <nav>
+    <% if (user) {%>
+      <a href="./log-out">Log out</a>
+      <% if (user.member_status) {%>
+        <a href="./message">Create a message</a>
+      <% } else {%>
+        <a href="./join">Join the club!</a>
+      <% } %>
+    <% } else {%>
+      <a href="./log-in">Log in</a>
+      <a href="./sign-up">Sign up</a>
+    <% } %>
+  </nav>
   <body>
     <h1>Home</h1>
-    <p>Welcome to the members only club!</p>
+    <% if (user && user.member_status) {%>
+      <p>Welcome to the members only club!</p>
+    <% } %>
+    <div class="message-list">
+    <% for (let i=0; i < allMessages.length; i++) { %>
+      <div class="message">
+        <div><b><%- allMessages[i].title %></b></div>
+        <div><%- allMessages[i].body %></div>
+        <% if (user && user.member_status) {%>
+          <div><%- allMessages[i].timestamp %></div>
+          <div><%- allMessages[i].user.first_name %> <%- allMessages[i].user.last_name %></div>
+        <% } %>
+      </div>
+    <% } %>
+    </div>
   </body>
 </html>

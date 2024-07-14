@@ -15,12 +15,12 @@ const verifyCallback = async (username, password, done) => {
 
         if (!user) { return done(null, false) }
 
-        const isValid = validPassword(password, user.password);
-        
+        const isValid = await validPassword(password, user.password, done);
+
         if (isValid) {
             return done(null, user);
         } else {
-            return done(null, false);
+            return done(null, false, { message: "Incorrect password" });
         }
     } catch (err) {
         done(err);

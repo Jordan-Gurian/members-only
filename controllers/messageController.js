@@ -1,8 +1,21 @@
 const Message = require('../models/message');
+const User = require('../models/user');
 
 const asyncHandler = require("express-async-handler");
 const { body, validationResult, Result } = require("express-validator");
 const passport = require('passport');
+
+//Get list of all messages
+exports.message_list = asyncHandler(async (req, res, next) => {
+    const allMessages = await Message.find()
+    .sort({ timestamp: -1 })
+    .populate("user")
+    .exec();
+
+    // const userArray = allMessages.map((id) => User.find())
+
+    res.render('index', { user: req.user, allMessages: allMessages });
+})
 
 // Get message form
 exports.message_create_get = asyncHandler(async (req, res, next) => {

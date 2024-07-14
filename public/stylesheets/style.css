@@ -12,3 +12,13 @@ form {
   flex-direction: column;
   gap: 8px;
 }
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message {
+  border: 1px black solid;
+}
